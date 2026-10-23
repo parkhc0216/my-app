@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>한화 보험 4건 장단점</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="apple-mobile-web-app-title" content="보험 비교">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@500;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+html{-webkit-text-size-adjust:100%}
+body{margin:0}
+
+/* Layout: 보험증권 서류철 — 요약 카드 → 보장 영역 매트릭스 → 상품별 증권 카드(장점|단점) → 겹침 체크 → 확인할 것 */
+:root{
+  --bg:#F2F4F8; --paper:#FFFFFF; --ink:#161D29; --muted:#566275; --line:#D8DEE7; --tint:#EBEFF5;
+  --accent:#1F3F99; --accent-soft:#E2E8F7;
+  --pro:#0B7656; --pro-soft:#E1F2EA; --con:#B0382C; --con-soft:#F7E5E2; --warn:#8E5B08; --warn-soft:#F6EDDA;
+  --f-display:"Hahmlet","Nanum Myeongjo","AppleMyungjo",serif;
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1219; --paper:#161B24; --ink:#E6EAF1; --muted:#9BA6B7; --line:#283142; --tint:#1C2330;
+    --accent:#9DB3F3; --accent-soft:#1D2946;
+    --pro:#5DCAA5; --pro-soft:#13302A; --con:#F0948A; --con-soft:#3A1F1C; --warn:#E3B55E; --warn-soft:#342914;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1219; --paper:#161B24; --ink:#E6EAF1; --muted:#9BA6B7; --line:#283142; --tint:#1C2330;
+  --accent:#9DB3F3; --accent-soft:#1D2946;
+  --pro:#5DCAA5; --pro-soft:#13302A; --con:#F0948A; --con-soft:#3A1F1C; --warn:#E3B55E; --warn-soft:#342914;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.65;word-break:keep-all;overflow-wrap:break-word}
+.wrap{max-width:900px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 56px;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.3}
+h1{font-size:clamp(26px,5.4vw,36px);font-weight:700;letter-spacing:-.01em}
+h2{font-size:22px;font-weight:700}
+h3{font-size:19px;font-weight:700}
+p{margin:0}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--accent)}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+a{color:var(--accent)}
+a:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* header */
+header{display:flex;flex-direction:column;gap:14px}
+.lead{max-width:62ch;color:var(--muted)}
+.note{background:var(--warn-soft);color:var(--ink);border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);border-radius:10px;padding:12px 14px;font-size:14px;max-width:70ch}
+.note b{color:var(--warn)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:500}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+
+/* section heads */
+.sec{display:flex;flex-direction:column;gap:16px}
+.sec-head{display:flex;flex-direction:column;gap:6px}
+
+/* summary grid */
+.sum{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:640px){.sum{grid-template-columns:1fr}}
+.sum a{display:flex;flex-direction:column;gap:8px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px}
+.sum a:hover{border-color:var(--accent)}
+.sum .who{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.sum .name{font-weight:700;font-size:16px}
+.sum .code{font-size:12px;color:var(--muted)}
+.tag{display:inline-block;font-size:12px;font-weight:600;border-radius:6px;padding:2px 8px;width:fit-content}
+.tag.pro{background:var(--pro-soft);color:var(--pro)}
+.tag.acc{background:var(--accent-soft);color:var(--accent)}
+.tag.warn{background:var(--warn-soft);color:var(--warn)}
+.sum p{font-size:14px;color:var(--muted)}
+
+/* matrix */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:13px}
+th,td{padding:10px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+thead th{background:var(--tint);font-weight:600;font-size:12px;color:var(--muted);white-space:nowrap}
+thead th span{display:block;color:var(--ink);font-size:13px}
+tbody th{font-weight:600;white-space:nowrap;position:sticky;left:0;background:var(--paper)}
+tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
+.cell{display:flex;gap:7px;align-items:flex-start}
+.cell small{font-size:12px;color:var(--muted);line-height:1.45}
+.lv{flex:none;width:12px;height:12px;border-radius:50%;margin-top:3px;border:2px solid var(--accent)}
+.lv3{background:var(--accent)}
+.lv2{background:linear-gradient(90deg,var(--accent) 50%,transparent 50%)}
+.lv1{background:transparent}
+.lv0{border:0;border-radius:0;height:2px;margin-top:9px;background:var(--line)}
+.lvq{border-style:dashed;border-color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--muted);align-items:center}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.legend .lv{margin-top:0}
+.legend .lv0{margin-top:0}
+
+/* policy cards */
+.policy{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden;scroll-margin-top:16px}
+.policy-top{background:var(--tint);padding:18px 18px 16px;display:flex;flex-direction:column;gap:10px;border-bottom:1px solid var(--line)}
+.policy-top .row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.co{font-size:12px;color:var(--muted);font-weight:500}
+.seal{flex:none;font-family:var(--f-display);font-weight:700;font-size:13px;line-height:1.15;text-align:center;color:var(--con);border:2px solid var(--con);border-radius:50%;width:66px;height:66px;display:grid;place-items:center;padding:6px;transform:rotate(-8deg);opacity:.9}
+.seal.blue{color:var(--accent);border-color:var(--accent)}
+.seal.green{color:var(--pro);border-color:var(--pro)}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+@media (max-width:640px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.fact{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.fact .k{font-size:11px;color:var(--muted);letter-spacing:.02em}
+.fact .v{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:15px;font-weight:500}
+.progress{display:flex;flex-direction:column;gap:6px}
+.bar{height:8px;border-radius:999px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;width:84.2%;background:var(--accent);border-radius:999px}
+.progress .lbl{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.struct{font-size:13px;color:var(--muted)}
+.struct b{color:var(--ink);font-weight:600}
+.pc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:700px){.pc{grid-template-columns:1fr}}
+.col{padding:18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.col + .col{border-left:1px solid var(--line)}
+@media (max-width:700px){.col + .col{border-left:0;border-top:1px solid var(--line)}}
+.col h4{margin:0;font-size:13px;font-weight:700;letter-spacing:.06em;display:flex;align-items:center;gap:8px}
+.col.pro h4{color:var(--pro)}
+.col.con h4{color:var(--con)}
+ul.pts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+ul.pts li{position:relative;padding-left:20px;font-size:14px;line-height:1.6}
+ul.pts li::before{position:absolute;left:0;top:0;font-weight:700;font-family:var(--f-mono)}
+.col.pro li::before{content:"+";color:var(--pro)}
+.col.con li::before{content:"−";color:var(--con)}
+ul.pts b{font-weight:600}
+.tip{margin:0 18px 18px;background:var(--accent-soft);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;font-size:14px}
+.tip h5{margin:0;font-size:13px;font-weight:700;color:var(--accent)}
+.tip ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+
+/* diff */
+.diff{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:640px){.diff{grid-template-columns:1fr}}
+.diff > div{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.diff h4{margin:0;font-size:14px;font-weight:700}
+.diff .add h4{color:var(--pro)}
+.diff .del h4{color:var(--con)}
+.diff ul{margin:0;padding-left:18px;font-size:14px;display:flex;flex-direction:column;gap:6px}
+.diff code{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+
+/* overlap */
+.ovl{display:flex;flex-direction:column;gap:10px}
+.ov{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:start}
+.ov .sev{grid-row:span 2;font-size:12px;font-weight:700;border-radius:6px;padding:3px 8px;white-space:nowrap;margin-top:2px}
+.sev.hi{background:var(--con-soft);color:var(--con)}
+.sev.md{background:var(--warn-soft);color:var(--warn)}
+.sev.lo{background:var(--tint);color:var(--muted)}
+.ov .t{font-weight:600;font-size:15px}
+.ov .d{font-size:14px;color:var(--muted)}
+
+/* checklist */
+.check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.check li{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 14px 12px 44px;position:relative;font-size:14px}
+.check li::before{content:"";position:absolute;left:14px;top:14px;width:16px;height:16px;border:2px solid var(--accent);border-radius:4px}
+.check b{font-weight:600}
+
+footer{display:flex;flex-direction:column;gap:10px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:20px}
+footer ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+@media (prefers-reduced-motion:no-preference){.chip,.sum a{transition:border-color .15s,color .15s}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">보험 4건 비교 · 후유장해·간병 담보는 제외</div>
+  <h1>한화 보험 4건, 장단점 한눈에</h1>
+  <p class="lead">한화생명 종신보험(가입 중)과 한화손해보험 약관 3종(한아름종합 2404·2604, 운전자상해 2504)을 같은 기준으로 놓고 비교했습니다.</p>
+  <div class="note"><b>읽는 법</b> 약관은 “가입할 수 있는 모든 담보 목록”입니다. 손보 3개 상품은 실제로 어떤 담보를 얼마에 넣었는지 모르기 때문에 상품 구조 기준으로 정리했고, 종신보험만 캡처 화면의 실제 가입 내용을 반영했습니다.</div>
+  <nav class="chips" aria-label="바로가기">
+    <a class="chip" href="#ulci">종신(2010)</a>
+    <a class="chip" href="#h2604">한아름 2604</a>
+    <a class="chip" href="#h2404">한아름 2404</a>
+    <a class="chip" href="#driver">운전자 2504</a>
+    <a class="chip" href="#diff">2404→2604 변화</a>
+    <a class="chip" href="#overlap">겹치는 보장</a>
+  </nav>
+</header>
+
+<section class="sec" aria-labelledby="s-sum">
+  <div class="sec-head"><h2 id="s-sum">한 줄 요약</h2></div>
+  <div class="sum">
+    <a href="#ulci">
+      <div class="who"><span class="name">ULCI통합종신</span><span class="code mono">한화생명 · 2010</span></div>
+      <span class="tag pro">핵심 가치: 2세대 실손</span>
+      <p>38회만 더 내면 완납. 사망·CI 보장은 작지만, 다시는 못 드는 옛날 실손이 붙어 있습니다.</p>
+    </a>
+    <a href="#h2604">
+      <div class="who"><span class="name">한아름종합 2604</span><span class="code mono">한화손보 · 현재 판매</span></div>
+      <span class="tag acc">가장 넓고 최신</span>
+      <p>암·뇌심 “치료비”와 운전자 비용까지 한 증권에. 대신 새로 들면 면책·감액이 처음부터 시작됩니다.</p>
+    </a>
+    <a href="#h2404">
+      <div class="who"><span class="name">한아름종합 2404</span><span class="code mono">한화손보 · 2024 버전</span></div>
+      <span class="tag warn">2604에 없는 담보 있음</span>
+      <p>뼈대는 2604와 같습니다. 감액·면책 없는 암 담보, 재활·투석 치료비 등 2604에서 빠진 담보가 있습니다.</p>
+    </a>
+    <a href="#driver">
+      <div class="who"><span class="name">운전자상해 2504</span><span class="code mono">한화손보 · 2025 버전</span></div>
+      <span class="tag acc">운전자 비용 특화</span>
+      <p>벌금·변호사비·합의금 메뉴가 가장 넓습니다. 질병 보장은 거의 없습니다.</p>
+    </a>
+  </div>
+</section>
+
+<section class="sec" aria-labelledby="s-mx">
+  <div class="sec-head">
+    <h2 id="s-mx">보장 영역별 비교</h2>
+    <div class="legend">
+      <span><i class="lv lv3"></i>강점</span>
+      <span><i class="lv lv2"></i>있음·선택 가능</span>
+      <span><i class="lv lv1"></i>제한적</span>
+      <span><i class="lv lv0"></i>없음</span>
+      <span><i class="lv lv1 lvq"></i>증권 확인 필요</span>
+    </div>
+  </div>
+  <div class="tbl">
+    <table>
+      <thead>
+        <tr><th>보장 영역</th><th>종신<span>2010 가입</span></th><th>한아름<span>2404</span></th><th>한아름<span>2604</span></th><th>운전자<span>2504</span></th></tr>
+      </thead>
+      <tbody>
+        <tr><th>실손의료비</th>
+          <td><div class="cell"><i class="lv lv3"></i><small>2세대 실손<br>입원 본인부담 10%</small></div></td>
+          <td><div class="cell"><i class="lv lv0"></i></div></td>
+          <td><div class="cell"><i class="lv lv0"></i></div></td>
+          <td><div class="cell"><i class="lv lv0"></i></div></td></tr>
+        <tr><th>사망</th>
+          <td><div class="cell"><i class="lv lv2"></i><small>종신 3,000만+가산</small></div></td>
+          <td><div class="cell"><i class="lv lv2"></i><small>상해사망(기본)·질병사망</small></div></td>
+          <td><div class="cell"><i class="lv lv2"></i><small>상해사망(기본)·질병사망</small></div></td>
+          <td><div class="cell"><i class="lv lv1"></i><small>상해·교통상해사망</small></div></td></tr>
+        <tr><th>암 진단</th>
+          <td><div class="cell"><i class="lv lv2"></i><small>CI 2,400만 선지급<br>+갑상샘암 600만 등</small></div></td>
+          <td><div class="cell"><i class="lv lv2"></i><small>통합암Ⅱ<br>감액·면책없음형</small></div></td>
+          <td><div class="cell"><i class="lv lv3"></i><small>통합암Ⅲ<br>14개 부위별 지급</small></div></td>
+          <td><div class="cell"><i class="lv lv0"></i></div></td></tr>
+        <tr><th>암 치료비</th>
+          <td><div class="cell"><i class="lv lv0"></i></div></td>
+          <td><div class="cell"><i class="lv lv2"></i><small>진단 후 5년</small></div></td>
+          <td><div class="cell"><i class="lv lv3"></i><small>진단 후 10년<br>비급여·중입자</small></div></td>
+          <td><div class="cell"><i class="lv lv0"></i></div></td></tr>
+        <tr><th>뇌·심장</th>
+          <td><div class="cell"><i class="lv lv1"></i><small>CI 기준(엄격)<br>PTCA 200만</small></div></td>
+          <td><div class="cell"><i class="lv lv2"></i><small>진단·수술</small></div></td>
+          <td><div class="cell"><i class="lv lv3"></i><small>진단·수술<br>+순환계 치료비</small></div></td>
+          <td><div class="cell"><i class="lv lv0"></i></div></td></tr>
+        <tr><th>질병 수술·입원</th>
+          <td><div class="cell"><i class="lv lv0"></i></div></td>
+          <td><div class="cell"><i class="lv lv2"></i><small>수술비·입원비</small></div></td>
+          <td><div class="cell"><i class="lv lv3"></i><small>+종합·상급종합<br>병원 수술비</small></div></td>
+          <td><div class="cell"><i class="lv lv0"></i></div></td></tr>
+        <tr><th>상해·골절</th>
+          <td><div class="cell"><i class="lv lv1"></i><small>재해골절 30만<br>재해수술 50만</small></div></td>
+          <td><div class="cell"><i class="lv lv2"></i><small>골절·화상·수술</small></div></td>
+          <td><div class="cell"><i class="lv lv2"></i><small>골절·화상·수술<br>+차사고 부상</small></div></td>
+          <td><div class="cell"><i class="lv lv3"></i><small>가장 다양</small></div></td></tr>
+        <tr><th>운전자 비용</th>
+          <td><div class="cell"><i class="lv lv0"></i></div></td>
+          <td><div class="cell"><i class="lv lv0"></i></div></td>
+          <td><div class="cell"><i class="lv lv2"></i><small>벌금·변호사·합의</small></div></td>
+          <td><div class="cell"><i class="lv lv3"></i><small>+면허·공탁금<br>선지급·PM</small></div></td></tr>
+        <tr><th>일상생활배상</th>
+          <td><div class="cell"><i class="lv lv0"></i></div></td>
+          <td><div class="cell"><i class="lv lv2"></i><small>배상책임Ⅲ</small></div></td>
+          <td><div class="cell"><i class="lv lv2"></i><small>배상책임Ⅳ</small></div></td>
+          <td><div class="cell"><i class="lv lv2"></i><small>배상책임Ⅲ</small></div></td></tr>
+        <tr><th>보험료 납입면제</th>
+          <td><div class="cell"><i class="lv lv1 lvq"></i><small>캡처에 없음</small></div></td>
+          <td><div class="cell"><i class="lv lv2"></i><small>1·3종: 암·뇌졸중·<br>급성심근경색 등</small></div></td>
+          <td><div class="cell"><i class="lv lv3"></i><small>같은 사유<br>+독립특약도 면제</small></div></td>
+          <td><div class="cell"><i class="lv lv2"></i><small>1종: 차사고<br>부상 1~7급</small></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="struct">손보 3개 상품은 “가입 가능한 담보” 기준입니다. 표가 잘리면 옆으로 밀어서 보세요.</p>
+</section>
+
+<!-- 1. ULCI -->
+<section class="policy" id="ulci" aria-labelledby="t-ulci">
+  <div class="policy-top">
+    <div class="row">
+      <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+        <span class="co">한화생명 · 가입 중 · 종신</span>
+        <h3 id="t-ulci">(무)ULCI통합종신</h3>
+      </div>
+      <div class="seal">핵심<br>자산</div>
+    </div>
+    <div class="facts">
+      <div class="fact"><span class="k">월 보험료</span><span class="v">88,867원</span></div>
+      <div class="fact"><span class="k">총 납입</span><span class="v">1,425.1만</span></div>
+      <div class="fact"><span class="k">해지환급금</span><span class="v">974.9만</span></div>
+      <div class="fact"><span class="k">환급률</span><span class="v">68%</span></div>
+    </div>
+    <div class="progress">
+      <div class="bar" role="img" aria-label="240회 중 202회 납입"><i></i></div>
+      <div class="lbl"><span class="mono">202 / 240회 납입 (2026.10 기준)</span><span class="mono">남은 38회 ≈ 338만원</span></div>
+    </div>
+  </div>
+  <div class="pc">
+    <div class="col pro">
+      <h4>장점</h4>
+      <ul class="pts">
+        <li><b>2세대 표준화 실손</b>이 붙어 있습니다. 입원은 급여·비급여 모두 본인부담 10%, 연 200만원 넘는 부분은 보상합니다. 도수치료·비급여 주사·MRI도 따로 빼거나 한도를 두지 않습니다(통원은 회당 20만원 한도).</li>
+        <li>2013년 3월 이전 가입이라 <b>재가입 조건이 없습니다.</b> 보험료는 갱신되지만 보장 조건은 보험사가 바꿀 수 없습니다.</li>
+        <li><b>완납이 가깝습니다.</b> 38회(약 338만원)만 더 내면 주계약 납입이 끝납니다(2029년 말 예정).</li>
+        <li><b>CI 선지급 2,400만원.</b> 중대한 질병·수술·화상 진단 시 사망보험금 일부를 살아 있을 때 먼저 받습니다.</li>
+        <li><b>CI추가보장</b>이 빈틈을 메웁니다. 갑상샘암 600만, 경계성종양 600만, 양성뇌종양 수술 600만, 조혈모세포이식 2,000만, 관상동맥성형술 200만원.</li>
+        <li>종신 사망보장이라 장례·상속 재원이 되고, 유니버셜(UL)이라 중도인출·약관대출을 쓸 수 있습니다.</li>
+      </ul>
+    </div>
+    <div class="col con">
+      <h4>단점</h4>
+      <ul class="pts">
+        <li><b>사망보장이 3,000만원</b>으로 작습니다. CI 선지급을 받으면 남는 사망보험금은 600만원(+가산보험금)입니다.</li>
+        <li><b>CI(중대한 질병) 기준이 엄격합니다.</b> 경증 뇌경색·협심증처럼 “중대한” 조건에 못 미치면 CI 보험금이 나오지 않을 수 있습니다. 정확한 기준은 약관에서 확인하세요.</li>
+        <li>질병 수술비·입원일당, 항암·표적 같은 <b>암 치료비가 없습니다.</b></li>
+        <li>실손은 <b>갱신형</b>이라 나이 들수록 보험료가 오르고, 오래된 실손일수록 인상 폭이 큰 편입니다.</li>
+        <li>지금 해지하면 낸 돈의 <b>약 68%</b>만 돌려받고 실손·CI가 함께 사라집니다. 같은 조건의 실손은 다시 가입할 수 없습니다.</li>
+        <li>특정상병통원 1만원, 재해의료 담보는 금액이 작고, 특약별 만기가 따로 있을 수 있습니다.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="tip">
+    <h5>알아둘 것</h5>
+    <ul>
+      <li><b>2026년 11월</b>부터 2013년 3월 이전 실손 가입자에게 “선택형 할인 특약”(물리치료·주사 제외, MRI 제외, 자기부담 20% 중 선택, 약 30~40% 할인 예상)과 5세대 전환 할인(예: 3년간 50%)이 시행될 예정입니다. 병원을 자주 가면 지금 조건이, 거의 안 가면 할인 쪽이 나을 수 있습니다.</li>
+      <li>특약은 보통 주계약에 붙어 있어서 <b>주계약을 해지하면 실손도 같이 없어집니다.</b> 감액·해지를 생각한다면 실손 특약만 남길 방법이 있는지 한화생명에 먼저 물어보세요.</li>
+      <li>완납 뒤에도 갱신형 특약(실손 등) 보험료는 계속 나갈 수 있습니다. 완납 후 월 납부액을 확인하세요.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 2. 2604 -->
+<section class="policy" id="h2604" aria-labelledby="t-2604">
+  <div class="policy-top">
+    <div class="row">
+      <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+        <span class="co">한화손해보험 · 2026.6 개정 · 현재 판매</span>
+        <h3 id="t-2604">한화 더건강한 한아름종합보험 <span class="mono">무배당2604</span></h3>
+      </div>
+      <div class="seal blue">최신<br>버전</div>
+    </div>
+    <p class="struct"><b>구조</b> 1~4종(납입면제형·납입면제지원 선택형 × 기본형·납입후50%환급형) · 만기 80/90/100세 · 갱신형 특약 3/10/20년 주기 · 건강고지형 1~6형</p>
+  </div>
+  <div class="pc">
+    <div class="col pro">
+      <h4>장점</h4>
+      <ul class="pts">
+        <li><b>암 보장이 최신형입니다.</b> 통합암진단비Ⅲ는 14개 부위별로 각각 최초 1회 지급해서 다른 부위에 암이 또 생겨도 받습니다. 전이암 포함형 통합암진단비, 진단 후 10년간 매년 받는 암 특정치료비(2404는 5년), 비급여 암 주요치료비, 중입자 방사선, 호르몬약물 치료비가 있습니다.</li>
+        <li><b>뇌·심장 치료비가 강화됐습니다.</b> 경증~중증 순환계질환 특정치료비(연 1회), 뇌졸중 혈전용해·혈전제거 치료비, 스텐트·풍선 성형술 수술비가 새로 생겼습니다.</li>
+        <li>진단비 범위가 넓어졌습니다. 폐렴·패혈증·천식·주요폐질환, 정신질환·스트레스 관련 질병, 근골격계 질환 진단·치료비.</li>
+        <li>병원 등급별 담보: 종합병원·상급종합병원 수술비, 2-3인실 입원비, 상해·질병 MRI·CT 검사지원비.</li>
+        <li><b>운전자 비용</b>(벌금·변호사선임비·형사합의금)과 민사·행정·이혼소송 법률비용을 이 상품 안에서 넣을 수 있습니다.</li>
+        <li>산정특례 치료소득지원수당: 암·뇌·심장 등 산정특례 치료를 받는 달마다 지급(갱신형).</li>
+        <li>제도 개선: 독립특약(상해및질병 관련 보장)도 납입면제 적용, 80·90세 만기 가입 후 심사 없이 100세까지 재가입(플러스 보장 연장), 출산·육아휴직 때 6·12개월 납입유예.</li>
+      </ul>
+    </div>
+    <div class="col con">
+      <h4>단점</h4>
+      <ul class="pts">
+        <li><b>새로 가입하는 계약</b>이라 암 90일 면책, 일부 담보 1년 내 50% 감액이 처음부터 다시 적용됩니다. 나이가 오른 만큼 보험료도 비쌉니다.</li>
+        <li>2404에 있던 <b>“감액및면책없음” 암 담보가 없어졌습니다.</b></li>
+        <li>재활치료비, 투석치료비, 암 MRI·내시경·PET 검사지원비, NGS 유전자검사지원비, 상해질병치료지원금도 빠졌습니다.</li>
+        <li>통합치료비·소득지원수당 같은 새 담보는 대부분 <b>갱신형</b>입니다. 갱신 때 오른 보험료는 적립금에서 대신 내주지 않아 직접 더 내야 합니다.</li>
+        <li>3·4종(납입후50%형)은 <b>납입 기간 중 해지하면 환급금이 0원</b>입니다.</li>
+        <li>기본 납입면제 사유가 뇌졸중·급성심근경색 수준입니다. 뇌혈관질환·허혈성심장질환 전체로 넓히려면 별도 납입면제지원 특약이 필요합니다.</li>
+        <li>담보가 250개가 넘어 설계가 복잡합니다. 필요 없는 담보가 섞이기 쉽고, 비용·배상 담보는 실손형이라 다른 보험과 겹치면 나눠서 지급합니다.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 3. 2404 -->
+<section class="policy" id="h2404" aria-labelledby="t-2404">
+  <div class="policy-top">
+    <div class="row">
+      <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+        <span class="co">한화손해보험(LIFEPLUS) · 2024.4 개정</span>
+        <h3 id="t-2404">더건강한 한아름종합보험 <span class="mono">무배당2404</span></h3>
+      </div>
+      <div class="seal green">이전<br>버전</div>
+    </div>
+    <p class="struct"><b>구조</b> 2604와 같음: 1~4종, 납입면제 8대 사유(80% 후유장해·암·뇌졸중·급성심근경색·말기간경화·말기폐질환·말기신부전), 만기 80/90/100세</p>
+  </div>
+  <div class="pc">
+    <div class="col pro">
+      <h4>장점</h4>
+      <ul class="pts">
+        <li><b>“감액및면책없음” 암 담보</b>가 있습니다. 가입 직후 90일 면책·1년 감액 없이 암 진단비·치료비를 받을 수 있는 선택지였습니다.</li>
+        <li>2604에서 빠진 담보를 넣을 수 있었습니다. 상해·질병 재활치료비, 암·뇌심 특정재활치료비, 투석치료비, 암 MRI·내시경·PET 검사지원비, NGS 유전자패널검사, 상해질병치료지원금(급여 본인부담 구간별).</li>
+        <li>이미 가입해 있다면 <b>면책·감액 기간이 지났거나 끝나가고</b>, 가입 당시 나이로 계산한 보험료가 유지됩니다.</li>
+        <li>질병 진단비·수술비·입원비 구성은 2604와 대부분 같습니다.</li>
+      </ul>
+    </div>
+    <div class="col con">
+      <h4>단점</h4>
+      <ul class="pts">
+        <li><b>운전자 비용 담보가 없습니다</b>(배상책임만 있음). 벌금·변호사비·합의금은 운전자보험이 따로 필요합니다.</li>
+        <li>암 진단 후 치료비가 <b>진단 후 5년까지</b>입니다(2604는 10년). 상급종합병원·비급여 암 주요치료비 독립특약도 없습니다.</li>
+        <li>순환계질환 치료비, 폐질환·정신질환·근골격계 진단비, 종합·상급종합병원 수술비 같은 2604 신규 담보가 없습니다.</li>
+        <li>플러스 보장 연장, 출산·육아휴직 납입유예가 없고, 독립특약은 납입면제 대상이 아닙니다.</li>
+        <li>2604와 같이 3·4종은 납입 중 해지 시 환급금 0원, 갱신형 인상분은 직접 납부입니다.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 4. 운전자 -->
+<section class="policy" id="driver" aria-labelledby="t-drv">
+  <div class="policy-top">
+    <div class="row">
+      <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+        <span class="co">한화손해보험 · 2025.4 개정</span>
+        <h3 id="t-drv">한화 운전자상해보험 <span class="mono">무배당2504</span></h3>
+      </div>
+      <div class="seal blue">운전자<br>특화</div>
+    </div>
+    <p class="struct"><b>구조</b> 1종 운전자보장형(기본: 자동차사고 부상 1~7급 발생금) · 2종 상해보장형(기본: 상해후유장해, 이번 분석에서 제외) · 상해·비용 담보 중심</p>
+  </div>
+  <div class="pc">
+    <div class="col pro">
+      <h4>장점</h4>
+      <ul class="pts">
+        <li><b>운전자 비용 담보가 가장 넓습니다.</b> 대인벌금(2천만원)에 스쿨존 사고 초과분(1천만원) 추가, 대물벌금, 경찰조사 단계부터 변호사선임비, 형사합의금(중대법규위반·중상해 포함).</li>
+        <li><b>공탁금 선지급</b> 특약이 있어 합의가 안 될 때 공탁금을 먼저 받을 수 있습니다(한아름 2604는 피해자 출급 뒤 지급).</li>
+        <li>생활형 담보: 보복운전 피해, 경유차 혼유사고, 원거리 사고 차량 운반비, 전동킥보드 등 PM 운전 중 사고.</li>
+        <li>영업용 운전자용 면허정지 일당·면허취소 발생금, 버스·택시 운전자 폭행 피해.</li>
+        <li>자동차사고 부상 등급별 발생금, 골절·화상·상해수술 등 상해 담보가 풍부합니다.</li>
+        <li>1종 납입면제는 <b>자동차사고 부상 1~7급</b>이면 적용돼 조건이 비교적 현실적입니다.</li>
+        <li>자녀 교통사고·스쿨존 사고 보장(1종), 운전면허 자진 반납 후 대중교통 상해 추가 보장.</li>
+      </ul>
+    </div>
+    <div class="col con">
+      <h4>단점</h4>
+      <ul class="pts">
+        <li><b>질병 보장이 거의 없습니다.</b> 건강보험을 대신할 수 없습니다.</li>
+        <li>벌금·변호사비·합의금은 <b>실손형</b>입니다. 한아름 2604의 운전자 비용 특약이나 다른 운전자보험과 겹치면 실제 비용 안에서 나눠 지급해서 보험료만 이중으로 나갑니다.</li>
+        <li>골절·상해수술·입원 담보가 한아름(2404·2604)과 겹치기 쉽습니다. 정액형이라 둘 다 나오지만 보험료 부담이 커집니다.</li>
+        <li>영업용 담보는 자가용 운전자에게 필요 없습니다. 운전을 그만두면 쓸모가 크게 줄고, 운전 여부가 바뀌면 회사에 알려야 합니다.</li>
+        <li>이 약관의 판매 승인 기간은 2025.3~2026.3입니다. 지금 새로 가입한다면 더 최신 버전이 있을 수 있습니다.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="diff" aria-labelledby="s-diff" style="scroll-margin-top:16px">
+  <div class="sec-head">
+    <h2 id="s-diff">한아름 2404 → 2604, 무엇이 달라졌나</h2>
+    <p class="muted" style="font-size:14px">두 약관의 특약 목록을 맞대어 비교한 결과입니다(후유장해·간병 담보 제외).</p>
+  </div>
+  <div class="diff">
+    <div class="add">
+      <h4>새로 생긴 것</h4>
+      <ul>
+        <li>통합암진단비Ⅲ, 전이암 포함 통합암진단비Ⅱ</li>
+        <li>암 진단후 특정치료비 <b>5년 → 10년</b></li>
+        <li>독립특약: 암 특정치료비(종합·상급종합), 비급여 암 주요치료비, 중입자 방사선, 순환계 주요치료비</li>
+        <li>하이클래스Ⅲ 항암 방사선·약물치료비(연 1회)</li>
+        <li>암 특정항암호르몬약물허가치료비</li>
+        <li>경증·중등증·중증 순환계질환 특정치료비, 뇌졸중 혈전용해·혈전제거, 스텐트·풍선성형술</li>
+        <li>폐렴·패혈증·천식·주요폐질환 진단비</li>
+        <li>통합정신질환·스트레스 진단비, 통합근골격계 진단·치료비</li>
+        <li>종합·상급종합병원 수술비, 2-3인실 입원비, MRI·CT 검사지원비</li>
+        <li>상해및질병 통합치료비(연간 1천만~4천만원 한도, 갱신형)</li>
+        <li>산정특례 치료소득지원수당(월 1회, 갱신형)</li>
+        <li>운전자 비용·법률비용 특약, 자동차사고 부상발생금</li>
+        <li>플러스 보장 연장, 출산·육아휴직 납입유예 (무사고 계약전환은 Ⅰ→Ⅱ로 개정)</li>
+      </ul>
+    </div>
+    <div class="del">
+      <h4>빠진 것</h4>
+      <ul>
+        <li>“감액및면책없음” 암 담보 전체(진단비·수술비·항암·표적·CAR-T·양성자 등)</li>
+        <li>상해·질병 재활치료비, 암 특정재활치료비, 뇌심 특정재활치료비</li>
+        <li>암 MRI·내시경·PET 검사지원비, 특정 NGS 유전자패널검사지원비</li>
+        <li>암 특정통증완화치료비</li>
+        <li>상해질병치료지원금(급여 본인부담 50만~1천만원 구간별)</li>
+        <li>투석치료비</li>
+        <li>암 직접치료통원비 중 감액·면책없음형, 뇌·심장 직접치료 종합병원통원비</li>
+        <li>일부 진단비·수술비의 갱신형 선택지(통합뇌·통합심장·질병수술비 등)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="overlap" aria-labelledby="s-ov" style="scroll-margin-top:16px">
+  <div class="sec-head"><h2 id="s-ov">겹치는 보장 체크</h2></div>
+  <div class="ovl">
+    <div class="ov"><span class="sev hi">중복 주의</span><span class="t">운전자 비용: 한아름 2604 ↔ 운전자 2504</span><span class="d">벌금·변호사비·형사합의금은 실제 든 비용만 줍니다. 두 곳에 들어도 합쳐서 한도 안에서 나눠 지급하니, 한쪽에만 두는 편이 보험료를 아낍니다.</span></div>
+    <div class="ov"><span class="sev hi">중복 주의</span><span class="t">일상생활배상책임: 2404 · 2604 · 2504 · 자동차/화재보험</span><span class="d">실손형이라 여러 개 있어도 실제 손해액까지만 받습니다. 가족 중 한 명 계약에 하나면 충분한 경우가 많습니다.</span></div>
+    <div class="ov"><span class="sev md">확인</span><span class="t">한아름 2404 ↔ 2604</span><span class="d">같은 상품의 신·구 버전입니다. 둘 다 유지하면 진단비가 이중으로 나오지만, 2404를 해지하고 2604로 옮기면 면책·감액이 다시 시작되고 2404에만 있던 담보는 다시 넣을 수 없습니다.</span></div>
+    <div class="ov"><span class="sev md">확인</span><span class="t">상해 정액 담보: 2604 ↔ 2504</span><span class="d">골절·상해수술·자동차사고 부상발생금은 정액형이라 둘 다 지급됩니다. 일부러 두 배로 받으려는 게 아니라면 보험료만 늘어납니다.</span></div>
+    <div class="ov"><span class="sev lo">참고</span><span class="t">실손은 종신에 붙은 것 하나뿐</span><span class="d">손보 3개 상품에는 실손이 없습니다. 새 실손을 권유받는다면 실손은 중복 가입해도 비례보상이라 이중 가입은 의미가 없습니다.</span></div>
+  </div>
+</section>
+
+<section class="sec" aria-labelledby="s-ck">
+  <div class="sec-head"><h2 id="s-ck">다음에 확인할 것</h2></div>
+  <ul class="check">
+    <li><b>한화생명</b>에 완납(2029년 말) 이후 실손 갱신보험료가 얼마인지, 주계약을 줄여도 실손 특약을 남길 수 있는지 문의</li>
+    <li>2026년 11월 시행 예정인 <b>초기 실손 선택형 할인 특약</b> 안내를 받아 병원 이용 패턴과 비교</li>
+    <li>한아름·운전자보험 <b>증권</b>에서 종(1~4종), 납입기간·만기, 갱신형 담보 목록, 운전자 비용·배상책임 중복 여부 확인</li>
+    <li>2604를 권유받았다면 <b>추가 가입인지, 2404를 해지하고 옮기는 것인지</b> 확인. 옮기는 경우 위 “빠진 것” 목록과 새 면책 기간을 비교</li>
+  </ul>
+</section>
+
+<footer>
+  <p>근거: 첨부 약관(한아름종합 2404·2604의 가입자 유의사항·특약 목차·제도성 특약, 운전자상해 2504 가입자 유의사항·특약 목차), 종신보험 앱 화면 캡처(2026.10.22 기준), 아래 공개 자료. 보험설계사나 재무 전문가의 판단이 아니며, 실제 지급 여부와 금액은 약관과 증권이 기준입니다.</p>
+  <ul>
+    <li><a href="https://www.fsc.go.kr/no010101/86831" target="_blank" rel="noopener">금융위원회 · 5세대 실손의료보험 출시 보도자료(2026.5)</a></li>
+    <li><a href="https://www.mt.co.kr/finance/2026/04/03/2026040217062543536" target="_blank" rel="noopener">머니투데이 · 옛 실손 계약재매입 보도(2026.4.3)</a></li>
+    <li><a href="https://newstomato.com/ReadNews.aspx?no=1297759" target="_blank" rel="noopener">뉴스토마토 · 구세대→5세대 실손 전환 할인(2026.4)</a></li>
+  </ul>
+</footer>
+
+</div>
+</body>
+</html>
